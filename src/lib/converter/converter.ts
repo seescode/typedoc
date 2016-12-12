@@ -10,7 +10,7 @@ import {ConverterComponent, ConverterNodeComponent, ConverterTypeComponent, ITyp
 import {CompilerHost} from "./utils/compiler-host";
 import {Component, Option, ChildableComponent, IComponentClass} from "../utils/component"
 import {normalizePath} from "../utils/fs";
-
+import * as _ from 'lodash';
 
 /**
  * Result structure of the [[Converter.convert]] method.
