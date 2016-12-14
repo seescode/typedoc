@@ -67,6 +67,14 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     loggerType:string|Function;
 
     @Option({
+        name: 'verbose',
+        help: 'Enable verbose logging',
+        defaultValue: false,
+        type: ParameterType.Boolean,
+    })
+    verbose:boolean;
+
+    @Option({
         name: 'ignoreCompilerErrors',
         help: 'Should TypeDoc generate documentation pages even after the compiler has returned errors?',
         type: ParameterType.Boolean
@@ -95,11 +103,12 @@ export class Application extends ChildableComponent<Application, AbstractCompone
     constructor(options?:Object) {
         super(null);
 
-        this.logger    = new ConsoleLogger();
+        this.logger    = new ConsoleLogger(false);
         this.converter = this.addComponent('converter', Converter);
         this.renderer  = this.addComponent('renderer', Renderer);
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
+
 
         this.bootstrap(options);
     }
@@ -110,18 +119,31 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?:Object):IOptionsReadResult {
+    protected bootstrap(options?:Object):IOptionsReadResult {        
         this.options.read(options, OptionsReadMode.Prefetch);
 
         var logger = this.loggerType;
         if (typeof logger == 'function') {
-            this.logger = new CallbackLogger(<any>logger);
+            this.logger = new CallbackLogger(<any>logger, this.verbose);
+            this.logger.verbose('Callback logger activated.\n');
         } else if (logger == 'none') {
-            this.logger = new Logger();
+            this.logger = new Logger(this.verbose);
+        } else {
+            this.logger = new ConsoleLogger(this.verbose);
+            this.logger.verbose('Console logger activated.\n');
         }
 
         this.plugins.load();
-        return this.options.read(options, OptionsReadMode.Fetch);
+        var optionsReadResult = this.options.read(options, OptionsReadMode.Fetch);
+
+        this.logger.verbose('Command line options parsed as:');
+        this.logger.verbose(this.options.getRawValues());
+        this.logger.verbose('');
+
+        this.logger.verbose('Input files parsed as:');
+        optionsReadResult.inputFiles.forEach(file => this.logger.verbose(file));
+
+        return optionsReadResult;
     }
 
 
@@ -161,6 +183,9 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     public convert(src:string[]):ProjectReflection {
         this.logger.writeln('Using TypeScript %s from %s', this.getTypeScriptVersion(), this.getTypeScriptPath());
+
+        this.logger.verbose('Converting these files:');
+        src.forEach(file => this.logger.verbose(file));
 
         var result = this.converter.convert(src);
         if (result.errors && result.errors.length) {

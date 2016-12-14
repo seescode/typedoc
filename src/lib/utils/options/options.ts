@@ -12,7 +12,10 @@ export class OptionsComponent extends AbstractComponent<Options> { }
 
 
 export enum OptionsReadMode {
+    /** Fetches all of the command line options.  Ignores errors. */
     Prefetch,
+
+    /** Fetches all of the command line options.  Outputs errors. */    
     Fetch
 }
 

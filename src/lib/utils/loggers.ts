@@ -27,6 +27,14 @@ export class Logger
      */
     errorCount:number = 0;
 
+    /**
+     * Is verbose logging enabled?
+     */
+    isVerbose:boolean = false;
+
+    constructor(isVerbose:boolean) {
+        this.isVerbose = isVerbose;
+    }
 
 
     /**
@@ -171,7 +179,7 @@ export class Logger
  * A logger that outputs all messages to the console.
  */
 export class ConsoleLogger extends Logger
-{
+{    
     /**
      * Print a log message.
      *
@@ -180,6 +188,10 @@ export class ConsoleLogger extends Logger
      * @param newLine  Should the logger print a trailing whitespace?
      */
     public log(message:string, level:LogLevel = LogLevel.Info, newLine?:boolean) {
+        if (level == LogLevel.Verbose && this.isVerbose == false) {
+            return;
+        }
+
         if (level == LogLevel.Error) {
             this.errorCount += 1;
         }
@@ -213,11 +225,10 @@ export class CallbackLogger extends Logger
      *
      * @param callback  The callback that should be used to log messages.
      */
-    constructor(callback:Function) {
-        super();
+    constructor(callback:Function, isVerbose:boolean) {
+        super(isVerbose);
         this.callback = callback;
     }
-
 
     /**
      * Print a log message.

@@ -34,7 +34,7 @@ export class ArgumentsReader extends OptionsComponent
         var index = 0;
         var owner = this.owner;
         args = args || process.argv.slice(2);
-
+        
         function readArgument(arg:string) {
             var declaration = owner.getDeclaration(arg);
             if (!declaration) {
