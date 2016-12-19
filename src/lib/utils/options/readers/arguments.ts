@@ -15,6 +15,8 @@ export class ArgumentsReader extends OptionsComponent
 
 
     onDiscover(event:DiscoverEvent) {
+        console.log('OnDiscover arguments');
+
         if (this.application.isCLI) {
             this.parseArguments(event);
         }

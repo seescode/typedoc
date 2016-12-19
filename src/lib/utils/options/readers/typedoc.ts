@@ -31,6 +31,8 @@ export class TypedocReader extends OptionsComponent
 
 
     onDiscover(event:DiscoverEvent) {
+        console.log('OnDiscover typedoc.js');
+
         if (TypedocReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TypedocReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {

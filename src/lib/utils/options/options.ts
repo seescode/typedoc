@@ -83,7 +83,16 @@ export class Options extends ChildableComponent<Application, OptionsComponent>
         event.data = data;
         event.mode = mode;
 
+        if (mode == OptionsReadMode.Fetch) {
+            this.application.logger.verbose('Before discover event');
+        }
+
         this.trigger(event);
+
+        if (mode == OptionsReadMode.Fetch) {
+            this.application.logger.verbose('After discover event\n');
+        }
+        
         this.setValues(event.data, '', event.addError.bind(event));
 
         if (mode == OptionsReadMode.Fetch) {

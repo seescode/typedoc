@@ -33,6 +33,8 @@ export class TSConfigReader extends OptionsComponent
 
 
     onDiscover(event:DiscoverEvent) {
+        console.log('OnDiscover tsconfig');
+
         if (TSConfigReader.OPTIONS_KEY in event.data) {
             this.load(event, Path.resolve(event.data[TSConfigReader.OPTIONS_KEY]));
         } else if (this.application.isCLI) {
