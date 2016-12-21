@@ -179,7 +179,7 @@ export class Logger
  * A logger that outputs all messages to the console.
  */
 export class ConsoleLogger extends Logger
-{    
+{
     /**
      * Print a log message.
      *
@@ -207,8 +207,6 @@ export class ConsoleLogger extends Logger
     }
 }
 
-
-
 /**
  * A logger that calls a callback function.
  */
@@ -218,7 +216,6 @@ export class CallbackLogger extends Logger
      * This loggers callback function
      */
     callback:Function;
-
 
     /**
      * Create a new CallbackLogger instance.

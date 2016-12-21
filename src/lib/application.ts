@@ -93,8 +93,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      */
     static VERSION:string = '{{ VERSION }}';
 
-
-
     /**
      * Create a new TypeDoc application instance.
      *
@@ -109,7 +107,6 @@ export class Application extends ChildableComponent<Application, AbstractCompone
         this.plugins   = this.addComponent('plugins', PluginHost);
         this.options   = this.addComponent('options', Options);
 
-
         this.bootstrap(options);
     }
 
@@ -119,7 +116,7 @@ export class Application extends ChildableComponent<Application, AbstractCompone
      *
      * @param options  The desired options to set.
      */
-    protected bootstrap(options?:Object):IOptionsReadResult {        
+    protected bootstrap(options?:Object):IOptionsReadResult {
         this.options.read(options, OptionsReadMode.Prefetch);
 
         var logger = this.loggerType;

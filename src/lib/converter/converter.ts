@@ -314,7 +314,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         }
     }
 
-
     removeAllComponents() {
         super.removeAllComponents();
 
@@ -322,8 +321,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
         this.typeTypeConverters = [];
         this.typeNodeConverters = [];
     }
-
-
 
     /**
      * Compile the given source files and create a project reflection for them.
@@ -333,7 +330,6 @@ export class Converter extends ChildableComponent<Application, ConverterComponen
     convert(fileNames:string[]):IConverterResult {
         for (var i = 0, c = fileNames.length; i < c; i++) {
             fileNames[i] = normalizePath(_ts.normalizeSlashes(fileNames[i]));
-            
         }
 
         var program = ts.createProgram(fileNames, this.application.options.getCompilerOptions(), this.compilerHost);
